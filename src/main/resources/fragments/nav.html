@@ -1,0 +1,11 @@
+<nav th:fragment="nav">
+	<ul>
+		<li th:if="${session.user == null}">
+			<a href="/user/login">Log in</a>
+		</li>
+		
+		<li th:if="${session.user != null}">
+			<a href="/user/logout">Log out</a>
+		</li>
+	</ul>
+</nav>
