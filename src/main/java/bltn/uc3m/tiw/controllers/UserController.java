@@ -1,15 +1,39 @@
 package bltn.uc3m.tiw.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class UserController {
 	
-	@RequestMapping("/user/login")
-	public String greet() {
+	@Autowired
+	RestTemplate restTemplate;
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/user/login")
+	public String renderLoginPage() {
 		return "login";
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/user/login")
+	public String executeLogin(HttpServletRequest request) {
+		// Fetch form params 
+		String email = (String)request.getParameter("email");
+		String password = (String)request.getParameter("password");
+		
+		// Validate user details 		
+		boolean detailsValid = restTemplate.postForObject("http://"
+				+ "localhost:8081/{email}/authenticateLogin", password, boolean.class,
+				email);
+		
+		if (detailsValid) {
+			return "login";
+		} else {
+			return "success";
+		}
 	}
 }
