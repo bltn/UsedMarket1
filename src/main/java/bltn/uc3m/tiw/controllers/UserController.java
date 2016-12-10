@@ -34,9 +34,18 @@ public class UserController {
 				email);
 		
 		if (detailsValid) {
-			return "login";
-		} else {
+			request.getSession().setAttribute("user", email);
 			return "success";
+		} else {
+			return "login";
 		}
+	}
+	
+	@RequestMapping("/user/logout")
+	public String executeLogout(HttpServletRequest request) {
+		if (request.getSession(false) != null) {
+			request.getSession().invalidate();
+		}
+		return "login";
 	}
 }
