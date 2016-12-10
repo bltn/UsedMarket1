@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
+import bltn.uc3m.tiw.helpers.PasswordHashGenerator;
+
 @Controller
 public class UserController {
 	
@@ -24,10 +26,11 @@ public class UserController {
 		// Fetch form params 
 		String email = (String)request.getParameter("email");
 		String password = (String)request.getParameter("password");
+		String hashedPassword = PasswordHashGenerator.md5(password);
 		
 		// Validate user details 		
 		boolean detailsValid = restTemplate.postForObject("http://"
-				+ "localhost:8081/{email}/authenticateLogin", password, boolean.class,
+				+ "localhost:8081/{email}/authenticateLogin", hashedPassword, boolean.class,
 				email);
 		
 		if (detailsValid) {
