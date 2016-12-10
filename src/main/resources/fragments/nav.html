@@ -5,6 +5,10 @@
 		</li>
 		
 		<li th:if="${session.user != null}">
+			<a th:href="@{/user/{id}(id=${session.user.userID})}">View profile</a>
+		</li>
+		
+		<li th:if="${session.user != null}">
 			<a href="/user/logout">Log out</a>
 		</li>
 	</ul>
