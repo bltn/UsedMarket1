@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import bltn.uc3m.tiw.domains.User;
 import bltn.uc3m.tiw.helpers.PasswordHashGenerator;
@@ -70,5 +71,22 @@ public class UserController {
 			}
 		}
 		return "index";
+	}
+	
+	@RequestMapping("/user/{id}/delete")
+	public String deleteUser(HttpServletRequest request, @PathVariable("id") Integer id) {
+		User loggedInUser = (User) request.getSession(false).getAttribute("user");
+		
+		// Check the delete request is for the logged in user's own account 
+		if (id.equals(loggedInUser.getUserID())) {
+			// Send request for microservice to delete user with the given id 
+			restTemplate.postForObject("http://"
+					+ "localhost:8081/user/{id}/delete", null, boolean.class,
+					id);
+			
+			return "login";
+		} else {
+			return "index";
+		}
 	}
 }
