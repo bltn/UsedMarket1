@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/error.css}"></link>
+</head>
 <body>
+	<nav th:replace="../fragments/nav :: nav"></nav>
+	<div th:replace="../fragments/error :: error"></div>
+
 	<h1>Change your details</h1>
 	<form th:action="@{/user/{id}/edit(id=${user.userID})}" th:object="${user}" method="post">
 		<label for="forename">Forename</label><br/>
-		<input type="text" th:field="*{forename}" name="forename"/><br/>
+		<input type="text" th:maxlength="40" th:field="*{forename}" name="forename" required="required" /><br/>
 		<label for="surname">Surname</label><br/>
-		<input type="text" th:field="*{surname}" name="surname" /><br/>
+		<input type="text" th:maxlength="40" th:field="*{surname}" name="surname" /><br/>
 		<label for="email">Email</label><br/>
 		<input type="email" th:field="*{email}" name="email" /><br/>
-		<label for="forename">Password</label><br/>
-		<input type="password" name="password" /><br/>
 		<label for="city">City of residence</label><br/>
-		<input type="text" th:field="*{city}" name="city" /><br/>
+		<input type="text" th:maxlength="40" th:field="*{city}" name="city" /><br/>
 		
 		<input type="submit" />
 	</form> 	

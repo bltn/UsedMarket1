@@ -85,14 +85,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/user/{id}/edit")
-	public String updateUser(HttpServletRequest request, @PathVariable("id") Integer id) {
+	public String updateUser(Model model, HttpServletRequest request, @PathVariable("id") Integer id) {
 		User loggedInUser = (User) request.getSession(false).getAttribute("user");
 		
 		Map<String, String[]> formParams = request.getParameterMap();
-		String[] passwordArr = new String[1];
-		String hashedPassword = PasswordHashGenerator.md5(formParams.get("password")[0]);
-		passwordArr[0] = hashedPassword;
-		formParams.replace("password", passwordArr);
 		
 		// Make sure request is for the logged in user 
 		if (loggedInUser.getUserID().equals(id)) {
@@ -102,8 +98,12 @@ public class UserController {
 			// Update the logged in user's details if the update was a success
 			if (user != null) {
 				request.getSession(false).setAttribute("user", user);
+				return "redirect:/user/"+id;
+			} else {
+				model.addAttribute("error", "Error updating details. All fields need at least 2 characters, apart from email (3)");
+				model.addAttribute("user", loggedInUser);
+				return "editUser";
 			}
-			return "redirect:/user/"+id;
 		} else {
 			return "index";
 		}
