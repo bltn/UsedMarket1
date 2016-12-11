@@ -1,6 +1,6 @@
 package bltn.uc3m.tiw.controllers;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
-
 import bltn.uc3m.tiw.domains.User;
 import bltn.uc3m.tiw.helpers.PasswordHashGenerator;
 
@@ -41,7 +39,7 @@ public class UserController {
 		
 		if (user != null) {
 			request.getSession().setAttribute("user", user);
-			return "success";
+			return "redirect:/user/"+user.getUserID();
 		} else {
 			return "login";
 		}
@@ -71,6 +69,44 @@ public class UserController {
 			}
 		}
 		return "index";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/user/{id}/edit")
+	public String editUser(Model model, HttpServletRequest request, @PathVariable("id") Integer id) {
+		User user = (User) request.getSession(false).getAttribute("user");
+		
+		// Check the request isn't for a different user 
+		if (user.getUserID().equals(id)) {
+			model.addAttribute(user);
+			return "editUser";
+		} else {
+			return "index";
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/user/{id}/edit")
+	public String updateUser(HttpServletRequest request, @PathVariable("id") Integer id) {
+		User loggedInUser = (User) request.getSession(false).getAttribute("user");
+		
+		Map<String, String[]> formParams = request.getParameterMap();
+		String[] passwordArr = new String[1];
+		String hashedPassword = PasswordHashGenerator.md5(formParams.get("password")[0]);
+		passwordArr[0] = hashedPassword;
+		formParams.replace("password", passwordArr);
+		
+		// Make sure request is for the logged in user 
+		if (loggedInUser.getUserID().equals(id)) {
+			User user = restTemplate.postForObject("http://"
+					+ "localhost:8081/user/{id}/update", formParams, User.class, id);
+			
+			// Update the logged in user's details if the update was a success
+			if (user != null) {
+				request.getSession(false).setAttribute("user", user);
+			}
+			return "redirect:/user/"+id;
+		} else {
+			return "index";
+		}
 	}
 	
 	@RequestMapping("/user/{id}/delete")
