@@ -8,6 +8,10 @@
 			<a href="/user/new">Sign up</a>
 		</li>
 		
+		<li th:if="${session.user != null &amp;&amp; session.user.isAdmin()}">
+			<a href="/users">All users</a>
+		</li>
+		
 		<li th:if="${session.user != null}">
 			<a th:href="@{/user/{id}(id=${session.user.userID})}">View profile</a>
 		</li>

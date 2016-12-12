@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<div th:replace="../fragments/stylesheets :: sheets"></div>
+</head>
 <body>
 	<nav th:replace="../fragments/nav :: nav"></nav>
+	<nav th:replace="../fragments/error :: error"></nav>
 
     <h1>Log in</h1>
     <form method="post" action="/user/login">

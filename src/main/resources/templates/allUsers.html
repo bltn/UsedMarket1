@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<div th:replace="../fragments/stylesheets :: sheets"></div>
+</head>
+<body>
+	<nav th:replace="../fragments/nav :: nav"></nav>
+	<div th:replace="../fragments/error :: error"></div>
+
+	<h1>All users</h1>
+	
+	<div th:each="user : ${users}">
+		<h3 th:text="${user.forename + ' ' + user.surname}">Name</h3>
+		<strong>Email: </strong><span th:text="${user.email}"></span><br/>
+		<strong>Lives in: </strong><span th:text="${user.city}"></span><br/>
+		<a th:href="@{/user/{id}(id=${user.userID})}">View profile</a>
+	</div>
+</body>
+</html>
