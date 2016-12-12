@@ -20,6 +20,34 @@ public class UserController {
 	@Autowired
 	RestTemplate restTemplate;
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/user/new")
+	public String renderSignupPage() {
+		return "signup";
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/user/new")
+	public String executeSignup(Model model, HttpServletRequest request) {
+		Map<String, String[]> formParams = request.getParameterMap();
+		
+		// Replace plain-text password in params with its hashed counterpart 		
+		String password = formParams.get("password")[0];
+		String hashedPasswordArray[] = new String[1];
+		String hashedPassword = PasswordHashGenerator.md5(password);
+		hashedPasswordArray[0] = hashedPassword;
+		formParams.replace("password", hashedPasswordArray);
+		
+		// Query microservice to create new user 
+		User newUser = restTemplate.postForObject("http://"
+				+ "localhost:8081/user/new", formParams, User.class);
+		
+		if (newUser != null) {
+			return "redirect:/user/login";
+		} else {
+			model.addAttribute("error", "Email or password taken");
+			return "signup";
+		}
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/user/login")
 	public String renderLoginPage() {
 		return "login";

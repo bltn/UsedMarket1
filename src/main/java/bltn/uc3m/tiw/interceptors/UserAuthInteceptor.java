@@ -23,7 +23,7 @@ public class UserAuthInteceptor implements HandlerInterceptor {
 		HttpSession session = arg0.getSession(false);
 		
 		// redirect if user's trying to access a page they aren't authorised for 
-		if (session == null && !requestURI.equals("/user/login")) {
+		if (session == null && !requestURI.equals("/user/login") && !requestURI.equals("/user/new")) {
 			arg1.sendRedirect("/user/login");
 		}
 	}
