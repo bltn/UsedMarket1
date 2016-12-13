@@ -1,23 +1,23 @@
 <nav th:fragment="nav">
 	<ul>
 		<li th:if="${session.user == null}">
-			<a href="/user/login">Log in</a>
+			<a href="/users/login">Log in</a>
 		</li>
 		
 		<li th:if="${session.user == null}">
-			<a href="/user/new">Sign up</a>
+			<a href="/users/new">Sign up</a>
 		</li>
 		
 		<li th:if="${session.user != null &amp;&amp; session.user.isAdmin()}">
-			<a href="/users">All users</a>
+			<a href="/users/index">All users</a>
 		</li>
 		
 		<li th:if="${session.user != null}">
-			<a th:href="@{/user/{id}(id=${session.user.userID})}">View profile</a>
+			<a th:href="@{/users/{id}(id=${session.user.userID})}">View profile</a>
 		</li>
 		
 		<li th:if="${session.user != null}">
-			<a href="/user/logout">Log out</a>
+			<a href="/users/logout">Log out</a>
 		</li>
 	</ul>
 </nav>

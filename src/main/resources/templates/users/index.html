@@ -13,7 +13,7 @@
 		<h3 th:text="${user.forename + ' ' + user.surname}">Name</h3>
 		<strong>Email: </strong><span th:text="${user.email}"></span><br/>
 		<strong>Lives in: </strong><span th:text="${user.city}"></span><br/>
-		<a th:href="@{/user/{id}(id=${user.userID})}">View profile</a>
+		<a th:href="@{/users/{id}(id=${user.userID})}">View profile</a>
 	</div>
 </body>
 </html>

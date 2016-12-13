@@ -8,7 +8,7 @@
 	<div th:replace="../fragments/error :: error"></div>
 
 	<h1>Change your details</h1>
-	<form th:action="@{/user/{id}/edit(id=${user.userID})}" th:object="${user}" method="post">
+	<form th:action="@{/users/{id}/edit(id=${user.userID})}" th:object="${user}" method="post">
 		<label for="forename">Forename</label><br/>
 		<input type="text" th:maxlength="40" th:field="*{forename}" name="forename" required="required" /><br/>
 		<label for="surname">Surname</label><br/>
