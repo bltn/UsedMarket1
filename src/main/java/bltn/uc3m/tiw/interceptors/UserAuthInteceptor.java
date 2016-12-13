@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import bltn.uc3m.tiw.domains.User;
+
 public class UserAuthInteceptor implements HandlerInterceptor {
 
 	@Override
@@ -25,6 +27,10 @@ public class UserAuthInteceptor implements HandlerInterceptor {
 		// redirect if user's trying to access a page they aren't authorised for 
 		if (session == null && !requestURI.equals("/users/login") && !requestURI.equals("/users/new")) {
 			arg1.sendRedirect("/users/login");
+		// Block logged in users' access to login and signup pages 
+		} else if (session != null && (requestURI.equals("/users/login") || requestURI.equals("/users/new"))) {
+			User user = (User) session.getAttribute("user");
+			arg1.sendRedirect("/users/"+user.getUserID());
 		}
 	}
 
