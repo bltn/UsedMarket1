@@ -1,5 +1,6 @@
 package bltn.uc3m.tiw.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +21,24 @@ public class ProductController {
 	RestTemplate restTemplate;
 	
 	/*
+	 * Render page showing all products
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/products/index")
+	public String renderProductIndexPage(Model model) {
+		List<Product> products = restTemplate.getForObject("http://"
+				+ "localhost:8082/products/index", List.class);
+
+		model.addAttribute("products", products);
+		return "products/index";
+	}
+	
+	/*
 	 * Render new product page and bind empty product object
 	 * to the form 
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/products/new")
-	public String renderSignupPage(Model model) {
+	public String renderNewProductPage(Model model) {
 		Product product = new Product();
 		model.addAttribute(product);
 		return "products/new";

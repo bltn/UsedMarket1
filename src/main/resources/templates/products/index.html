@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<div th:replace="../fragments/stylesheets :: sheets"></div>
+</head>
+<body>
+	<nav th:replace="../fragments/nav :: nav"></nav>
+	<div th:replace="../fragments/error :: error"></div>
+
+	<h1>All products</h1>
+	
+	<div th:each="product : ${products}">
+		<h3 th:text="${product.title}">Title</h3>
+		<strong>Description: </strong><span th:text="${product.description}"></span><br/>
+		<strong>Category: </strong><span th:text="${product.category}"></span><br/>
+		<strong>Availability: </strong><span th:text="${product.availability}"></span><br/>
+	</div>
+</body>
+</html>

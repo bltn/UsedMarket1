@@ -13,6 +13,10 @@
 		</li>
 		
 		<li th:if="${session.user != null}">
+			<a href="/products/index">Product catalogue</a>
+		</li>
+		
+		<li th:if="${session.user != null}">
 			<a href="/products/new">New product listing</a>
 		</li>
 		
