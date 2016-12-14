@@ -13,6 +13,10 @@
 		</li>
 		
 		<li th:if="${session.user != null}">
+			<a href="/products/new">New product listing</a>
+		</li>
+		
+		<li th:if="${session.user != null}">
 			<a th:href="@{/users/{id}(id=${session.user.userID})}">View profile</a>
 		</li>
 		

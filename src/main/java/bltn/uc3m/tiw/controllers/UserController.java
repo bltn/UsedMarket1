@@ -86,7 +86,8 @@ public class UserController {
 		
 		if (user != null) {
 			request.getSession().setAttribute("user", user);
-			return "redirect:/users/"+user.getUserID();
+			model.addAttribute(user);
+			return "users/view";
 		} else {
 			model.addAttribute("error", "Email and/or password incorrect.");
 			return "users/login";
@@ -114,9 +115,12 @@ public class UserController {
 			if (user.getUserID().equals(loggedInUser.getUserID()) || loggedInUser.isAdmin()) {
 				model.addAttribute(user);
 				return "users/view";
+			} else {
+				return "index";
 			}
+		} else {
+			return "index";
 		}
-		return "index";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/users/{id}/edit")
