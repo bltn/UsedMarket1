@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<div th:replace="../fragments/stylesheets :: sheets"></div>
+</head>
+<body>
+	<nav th:replace="../fragments/nav :: nav"></nav>
+	<h1 th:text="${product.title}">Product title</h1>
+	
+	<strong>Description: </strong><span th:text="${product.description}"></span><br/>
+	<strong>Category: </strong><span th:text="${product.category}"></span><br/>
+	<strong>Availability: </strong><span th:text="${product.availability}"></span><br/>
+	<a href="#">Edit product listing</a><br/>
+	<a href="#" onclick="return confirmDelete()">Delete product listing</a>
+	
+	<script>
+		function confirmDelete() {
+			return confirm("Are you sure you want to delete your account?");
+		}
+	</script>
+</body>
+</html>

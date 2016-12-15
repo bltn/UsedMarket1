@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,10 +60,27 @@ public class ProductController {
 		
 		if (newProduct != null) {
 			model.addAttribute("product", newProduct);
-			return "success";
+			return "products/view";
 		} else {
 			model.addAttribute("error", "couldn't create new product: try again?");
-			return "index";
+			return "products/new";
+		}
+	}
+	
+	/**
+	 * Render product profile page 
+	 */
+	@RequestMapping("/products/{id}")
+	public String renderProductProfile(Model model, @PathVariable("id") Integer id) {
+		// Query microservice for product 
+		Product product = restTemplate.getForObject("http://"
+				+ "localhost:8082/products/{id}", Product.class, id);
+		
+		if (product != null) {
+			model.addAttribute("product", product);
+			return "products/view";
+		} else {
+			return "products/index";
 		}
 	}
 }
