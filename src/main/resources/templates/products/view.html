@@ -11,7 +11,7 @@
 	<strong>Category: </strong><span th:text="${product.category}"></span><br/>
 	<strong>Availability: </strong><span th:text="${product.availability}"></span><br/>
 	<a href="#">Edit product listing</a><br/>
-	<a href="#" onclick="return confirmDelete()">Delete product listing</a>
+	<a th:href="@{/products/{id}/delete(id=${product.productID})}" onclick="return confirmDelete()">Delete product listing</a>
 	
 	<script>
 		function confirmDelete() {

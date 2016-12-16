@@ -67,7 +67,7 @@ public class ProductController {
 		}
 	}
 	
-	/**
+	/*
 	 * Render product profile page 
 	 */
 	@RequestMapping("/products/{id}")
@@ -81,6 +81,29 @@ public class ProductController {
 			return "products/view";
 		} else {
 			return "products/index";
+		}
+	}
+	
+	/*
+	 * Process request for deleting a product  
+	 */
+	@RequestMapping("/products/{id}/delete")
+	public String deleteProduct(Model model, @PathVariable("id") Integer id, HttpServletRequest request) {
+		User user = (User) request.getSession(false).getAttribute("user");
+		
+		// Check product belongs to the user or the user is an admin 
+		if (id.equals(user.getUserID()) || user.isAdmin()) {
+			// Send request to microservice to delete product with the given id 
+			boolean deleted = restTemplate.postForObject("http://" 
+					+ "localhost:8082/products/{id}/delete", null, boolean.class, id);
+			
+			if (deleted) 
+				return "redirect:/products/index";
+			else 
+				model.addAttribute("error", "Couldn't delete product");
+				return "redirect:/products/" + id;
+		} else {
+			return "redirect:/products/index";
 		}
 	}
 }
