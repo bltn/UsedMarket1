@@ -85,6 +85,58 @@ public class ProductController {
 	}
 	
 	/*
+	 * Process request for editing a product 
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/products/{id}/edit")
+	public String renderEditProductPage(Model model, @PathVariable("id") Integer id, HttpServletRequest request) {
+		User user = (User) request.getSession(false).getAttribute("user");
+		
+		// Make sure product's owned by logged in user or it's an admin user editing it 
+		if (id.equals(user.getUserID()) || user.isAdmin()) {
+			// Query microservice for product with the given id 
+			Product product = restTemplate.getForObject("http://"
+					+ "localhost:8082/products/{id}", Product.class, id);
+			
+			if (product != null) {
+				model.addAttribute("product", product);
+				return "products/edit";
+			}
+			else {
+				model.addAttribute("error", "Couldn't retrieve product with the given id");
+				return "products/index";
+			}
+		} else {
+			return "redirect:/products/index";
+		}
+	}
+	
+	/*
+	 * Edit a product 
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/products/{id}/edit")
+	public String editProduct(Model model, @PathVariable("id") Integer id, HttpServletRequest request) {
+		User user = (User) request.getSession(false).getAttribute("user");
+		
+		Map<String, String[]> formParams = request.getParameterMap();
+		
+		// Make sure the product's owned by logged in user or it's an admin editing it 
+		if (id.equals(user.getUserID()) || user.isAdmin()) {
+			Product product = restTemplate.postForObject("http://"
+					+ "localhost:8082/products/{id}/edit", formParams, Product.class, id);
+			
+			if (product != null) {
+				model.addAttribute("product", product);
+				return "redirect:/products/" + product.getProductID();
+			} else {
+				model.addAttribute("error", "Couldn't update the product");
+				return "product/"+id+"/edit";
+			}
+		} else {
+			return "redirect:/products/index";
+		}
+	}
+	
+	/*
 	 * Process request for deleting a product  
 	 */
 	@RequestMapping("/products/{id}/delete")
@@ -97,11 +149,13 @@ public class ProductController {
 			boolean deleted = restTemplate.postForObject("http://" 
 					+ "localhost:8082/products/{id}/delete", null, boolean.class, id);
 			
-			if (deleted) 
+			if (deleted) {
 				return "redirect:/products/index";
-			else 
+			}
+			else {
 				model.addAttribute("error", "Couldn't delete product");
 				return "redirect:/products/" + id;
+			}
 		} else {
 			return "redirect:/products/index";
 		}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<div th:replace="../fragments/stylesheets :: sheets"></div>
+</head>
+<body>
+	<nav th:replace="../fragments/nav :: nav"></nav>
+	<div th:replace="../fragments/error :: error"></div>
+
+	<h1 th:text="Edit + ' ' + ${product.title}"></h1>
+	<form th:action="@{/products/{id}/edit(id=${product.productID})}" th:object="${product}" method="post">
+		<label for="title">Title</label><br/>
+		<input type="text" th:maxlength="40" th:field="*{title}" name="title" required="required" /><br/>
+		
+		
+		<label for="description">Description</label><br/>
+		<textarea rows="4" cols="50" th:field="*{description}" name="description" required="required"></textarea><br/>
+		
+		
+		<label>Category</label><br/>
+		<select name="category">
+   			<option value="BEDROOM">Bedroom</option>
+   			<option value="KITCHEN">Kitchen</option>
+   			<option value="OFFICE">Office</option>
+   			<option value="BATHROOM">Bathroom</option>
+   			<option value="OTHER">other</option>
+		</select>
+		
+		<input type="radio" name="availability" value="available" checked="checked"/>Available 
+		<input type="radio" name="availability" value="reserved" />Reserved 
+		<input type="radio" name="availability" value="sold" />Sold<br/> 
+		
+		<label for="price">Price</label><br/>
+		<input type="number" th:maxlength="40" th:field="*{price}" name="price" /><br/>
+		
+		<input type="submit" />
+	</form> 	
+</body>
+</html>
