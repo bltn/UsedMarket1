@@ -8,12 +8,13 @@
 	<div th:replace="../fragments/error :: error"></div>
 
 	<h1>All users</h1>
-	
-	<div th:each="user : ${users}">
-		<h3 th:text="${user.forename + ' ' + user.surname}">Name</h3>
-		<strong>Email: </strong><span th:text="${user.email}"></span><br/>
-		<strong>Lives in: </strong><span th:text="${user.city}"></span><br/>
-		<a th:href="@{/users/{id}(id=${user.userID})}">View profile</a>
+	<div class="text-align-center-wrapper">
+		<div th:each="user : ${users}">
+			<h3 th:text="${user.forename + ' ' + user.surname}">Name</h3>
+			<strong>Email: </strong><span th:text="${user.email}"></span><br/>
+			<strong>Lives in: </strong><span th:text="${user.city}"></span><br/>
+			<a th:href="@{/users/{id}(id=${user.userID})}">View profile</a>
+		</div>
 	</div>
 </body>
 </html>

@@ -7,13 +7,20 @@
 	<nav th:replace="../fragments/nav :: nav"></nav>
 	<h1 th:text="${product.title}">Product title</h1>
 	
-	<strong>Description: </strong><span th:text="${product.description}"></span><br/>
-	<strong>Category: </strong><span th:text="${product.category}"></span><br/>
-	<strong>Availability: </strong><span th:text="${product.availability}"></span><br/>
-	<span th:if="${session.user.userID == product.userID or session.user.isAdmin()}">
-		<a th:href="@{/products/{id}/edit(id=${product.productID})}">Edit product listing</a><br/>
-		<a th:href="@{/products/{id}/delete(id=${product.productID})}" onclick="return confirmDelete()">Delete product listing</a>	
-	</span>
+	<div class="text-align-center-wrapper">
+		<div class="inline-block-wrapper">
+			<strong>Description: </strong><span th:text="${product.description}"></span><br/>
+			<strong>Category: </strong><span th:text="${product.category}"></span><br/>
+			<strong>Availability: </strong><span th:text="${product.availability}"></span><br/>
+			<span th:if="${session.user.userID == product.userID or session.user.isAdmin()}">
+				<a th:href="@{/products/{id}/edit(id=${product.productID})}">Edit product listing</a><br/>
+				<a th:href="@{/products/{id}/delete(id=${product.productID})}" onclick="return confirmDelete()">Delete product listing</a>	
+			</span>
+			<span th:if="${session.user.userID != product.userID}">
+				<a th:href="@{/chats/new/{id}(id=${product.userID})}">Chat with owner</a>
+			</span>
+		</div>
+	</div>
 	
 	<script>
 		function confirmDelete() {

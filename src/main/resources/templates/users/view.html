@@ -7,18 +7,24 @@
 	<nav th:replace="../fragments/nav :: nav"></nav>
 	<h1 th:text="${user.forename + ' ' + user.surname}">User's name</h1>
 	
-	<h3>Your details</h3>
-	<label><strong>Email</strong></label><br/>
-	<div th:text="${user.email}"></div>
-	<label><strong>Forename</strong></label><br/>
-	<div th:text="${user.forename}"></div>
-	<label><strong>Surname</strong></label><br/>
-	<div th:text="${user.surname}"></div>
-	<label><strong>City of residence</strong></label><br/>
-	<div th:text="${user.city}"></div>
-	<a th:href="@{/users/{id}/edit(id=${user.userID})}">Edit details</a>
-	<a th:href="@{/users/{id}/delete(id=${user.userID})}" onclick="return confirmDelete()">Delete account</a>
-	
+	<div id="user-profile">
+		<h3>Your details</h3>
+		<label><strong>Email</strong></label><br/>
+		<div th:text="${user.email}"></div>
+		<label><strong>Forename</strong></label><br/>
+		<div th:text="${user.forename}"></div>
+		<label><strong>Surname</strong></label><br/>
+		<div th:text="${user.surname}"></div>
+		<label><strong>City of residence</strong></label><br/>
+		<div th:text="${user.city}"></div>
+		
+		<form th:action="@{/users/{id}/edit(id=${user.userID})}">
+			<button>Edit details</button>
+		</form>
+		<form th:action="@{/users/{id}/delete(id=${user.userID})}">
+			<button onclick="return confirmDelete()">Delete account</button>
+		</form>
+	</div>
 	<script>
 		function confirmDelete() {
 			return confirm("Are you sure you want to delete your account?");

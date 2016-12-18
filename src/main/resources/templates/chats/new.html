@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<div th:replace="../fragments/stylesheets :: sheets"></div>
+	
+</head>
+<body>
+	<nav th:replace="../fragments/nav :: nav"></nav>
+	<nav th:replace="../fragments/error :: error"></nav>
+
+    <h2 th:text="${'Send message to ' + recipient.forename}"></h2>
+    <form method="post" action="/chats/new">
+    	<label>Message</label><br/>
+		<textarea rows="4" cols="50" name="description" required="required"></textarea><br/>
+		
+		<input type="submit"/>
+    </form>
+</body>
+</html>

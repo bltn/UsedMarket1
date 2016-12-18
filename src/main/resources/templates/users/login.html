@@ -8,12 +8,14 @@
 	<nav th:replace="../fragments/error :: error"></nav>
 
     <h1>Log in</h1>
-    <form method="post" action="/users/login">
+    <div class="text-align-center-wrapper">
+    	<form method="post" action="/users/login" class="inline-block-wrapper">
     	Email<br/>
 		<input name="email" type="email"/><br/>
 		Password<br/>
 		<input name="password" type="password"/><br/>
 		<input type="submit" value="Log in"/>
     </form>
+    </div>
 </body>
 </html>

@@ -9,11 +9,13 @@
 
 	<h1>All products</h1>
 	
-	<div th:each="product : ${products}">
-		<h3 th:text="${product.title}">Title</h3>
-		<strong>Category: </strong><span th:text="${product.category}"></span><br/>
-		<strong>Availability: </strong><span th:text="${product.availability}"></span><br/>
-		<a th:href="@{/products/{id}(id=${product.productID})}">View product</a>
+	<div class="text-align-center-wrapper">
+		<div th:each="product : ${products}">
+			<h3 th:text="${product.title}">Title</h3>
+			<strong>Category: </strong><span th:text="${product.category}"></span><br/>
+			<strong>Availability: </strong><span th:text="${product.availability}"></span><br/>
+			<a th:href="@{/products/{id}(id=${product.productID})}">View product</a>
+		</div>
 	</div>
 </body>
 </html>

@@ -8,8 +8,9 @@
 	<nav th:replace="../fragments/error :: error"></nav>
 
     <h1>New product listing</h1>
-    <form method="post" action="/products/new">
-    	<label>Title</label><br/>
+    <div class="text-align-center-wrapper">
+	    <form method="post" action="/products/new" class="inline-block-wrapper">
+	   	<label>Title</label><br/>
 		<input type="text" name="title" required="required" /><br/>
 		
 		<label>Description</label><br/>
@@ -17,17 +18,18 @@
 		
 		<label>Category</label><br/>
 		<select name="category">
-   			<option value="BEDROOM">Bedroom</option>
-   			<option value="KITCHEN">Kitchen</option>
-   			<option value="OFFICE">Office</option>
-   			<option value="BATHROOM">Bathroom</option>
-   			<option value="OTHER">other</option>
-		</select>
+	  			<option value="BEDROOM">Bedroom</option>
+	  			<option value="KITCHEN">Kitchen</option>
+	  			<option value="OFFICE">Office</option>
+	  			<option value="BATHROOM">Bathroom</option>
+	  			<option value="OTHER">other</option>
+		</select><br/>
 		
 		<label>Price</label><br />
 		<input type="number" name="price" required="required" /><br/>
 		
 		<input type="submit" />
-    </form>
+	    </form>
+    </div>
 </body>
 </html>

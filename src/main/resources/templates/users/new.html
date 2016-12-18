@@ -8,18 +8,20 @@
 	<nav th:replace="../fragments/error :: error"></nav>
 
     <h1>Sign up</h1>
-    <form method="post" action="/users/new">
-    	Email<br/>
-		<input name="email" type="email" required="required" /><br/>
-		Password<br/>
-		<input name="password" type="password" required="required" /><br/>
-		Forename<br/>
-		<input name="forename" type="text" required="required" /><br/>
-		Surname<br/>
-		<input name="surname" type="text" required="required" /><br/>
-		City of residence<br/>
-		<input name="city" type="text" required="required" /><br/>
-		<input type="submit" value="Sign up"/>
-    </form>
+    <div class="text-align-center-wrapper">
+	    <form method="post" action="/users/new" class="inline-block-wrapper">
+	    	Email<br/>
+			<input name="email" type="email" required="required" /><br/>
+			Password<br/>
+			<input name="password" type="password" required="required" /><br/>
+			Forename<br/>
+			<input name="forename" type="text" required="required" /><br/>
+			Surname<br/>
+			<input name="surname" type="text" required="required" /><br/>
+			City of residence<br/>
+			<input name="city" type="text" required="required" /><br/>
+			<input type="submit" value="Sign up"/>
+	    </form>
+    </div>
 </body>
 </html>
