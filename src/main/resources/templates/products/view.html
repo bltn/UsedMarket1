@@ -12,12 +12,10 @@
 			<strong>Description: </strong><span th:text="${product.description}"></span><br/>
 			<strong>Category: </strong><span th:text="${product.category}"></span><br/>
 			<strong>Availability: </strong><span th:text="${product.availability}"></span><br/>
+			<strong>Price: </strong><span th:text="${product.price}"></span><br/>
 			<span th:if="${session.user.userID == product.userID or session.user.isAdmin()}">
-				<a th:href="@{/products/{id}/edit(id=${product.productID})}">Edit product listing</a><br/>
-				<a th:href="@{/products/{id}/delete(id=${product.productID})}" onclick="return confirmDelete()">Delete product listing</a>	
-			</span>
-			<span th:if="${session.user.userID != product.userID}">
-				<a th:href="@{/chats/new/{id}(id=${product.userID})}">Chat with owner</a>
+				<a th:href="@{/users/{userID}/products/{productID}/edit(userID=${product.userID}, productID=${product.productID})}">Edit product listing</a><br/>
+				<a th:href="@{/users/{userID}/products/{productID}/delete(userID=${product.userID}, productID=${product.productID})}" onclick="return confirmDelete()">Delete product listing</a>	
 			</span>
 		</div>
 	</div>

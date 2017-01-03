@@ -8,7 +8,7 @@
 	<div th:replace="../fragments/error :: error"></div>
 
 	<h1 th:text="Edit + ' ' + ${product.title}"></h1>
-	<form th:action="@{/products/{id}/edit(id=${product.productID})}" th:object="${product}" method="post">
+	<form th:action="@{/users/{userID}/products/{productID}/edit(userID=${product.userID}, productID=${product.productID})}" th:object="${product}" method="post">
 		<label for="title">Title</label><br/>
 		<input type="text" th:maxlength="40" th:field="*{title}" name="title" required="required" /><br/>
 		

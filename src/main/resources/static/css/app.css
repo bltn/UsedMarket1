@@ -1,6 +1,7 @@
 body {
 	margin: 0;
 	font-family: sans-serif;
+	background-color: #ffffe6;
 }
 
 h1 {
@@ -92,4 +93,8 @@ form button {
 
 .text-align-center-wrapper .inline-block-wrapper {
 	display: inline-block;
+}
+
+.text-align-center-wrapper .inline-block-wrapper * {
+	text-align: left;
 }

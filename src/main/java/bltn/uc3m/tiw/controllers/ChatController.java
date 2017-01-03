@@ -1,5 +1,7 @@
 package bltn.uc3m.tiw.controllers;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +45,26 @@ public class ChatController {
 			model.addAttribute("recipient", recipient);
 			return "chats/new";
 		}
+	}
+	
+	/*
+	 * Process new message for a chat between two users who've never spoken before 
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/chats/new/{recipientID}")
+	public String processNewMessage(Model model, @PathVariable("recipientID") Integer recipientID, HttpServletRequest request) {
+		User user = (User) request.getSession(false).getAttribute("user");
+		
+		Map<String, String[]> formParams = request.getParameterMap();
+		
+		Chat chat = restTemplate.postForObject("http://"
+				+ "localhost:8083/chats/new/{userID1}/{userID2}", formParams, Chat.class, recipientID, user.getUserID());
+		
+		if (chat != null) {
+			return "";
+		} else {
+			model.addAttribute("error", "Couldn't send message");
+			return "";
+		}
+		
 	}
 }

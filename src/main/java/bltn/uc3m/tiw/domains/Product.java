@@ -14,21 +14,18 @@ public class Product implements Serializable {
 	@Size(min  = 2, max = 400)
 	private String description;
 	private Category category;
-	private byte[] photo;
 	private Integer price;
 	private Availability availability; 
 	private Integer userID;
 	
 	public Product() {}
 	
-	public Product(String title, String description, String category,
-			byte[] photo, Integer price, Integer userID) {
+	public Product(String title, String description, String category, byte[] photo, Integer price, Integer userID) {
 		
 		this.productID = null;
 		this.title = title;
 		this.description = description;
 		this.category = stringToCategory(category);
-		this.photo = photo;
 		this.price = price;
 		this.availability = Availability.AVAILABLE;
 		this.userID = userID;
@@ -44,10 +41,6 @@ public class Product implements Serializable {
 
 	public String getDescription() {
 		return description;
-	}
-
-	public byte[] getPhoto() {
-		return photo;
 	}
 
 	public int getPrice() {
@@ -76,10 +69,6 @@ public class Product implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
 	}
 
 	public void setPrice(int price) {

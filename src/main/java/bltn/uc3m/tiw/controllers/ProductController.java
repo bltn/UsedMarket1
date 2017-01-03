@@ -87,15 +87,15 @@ public class ProductController {
 	/*
 	 * Process request for editing a product 
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/products/{id}/edit")
-	public String renderEditProductPage(Model model, @PathVariable("id") Integer id, HttpServletRequest request) {
+	@RequestMapping(method = RequestMethod.GET, value = "/users/{userID}/products/{productID}/edit")
+	public String renderEditProductPage(Model model, @PathVariable("userID") Integer userID, @PathVariable("productID") Integer productID, HttpServletRequest request) {
 		User user = (User) request.getSession(false).getAttribute("user");
 		
 		// Make sure product's owned by logged in user or it's an admin user editing it 
-		if (id.equals(user.getUserID()) || user.isAdmin()) {
+		if (userID.equals(user.getUserID()) || user.isAdmin()) {
 			// Query microservice for product with the given id 
 			Product product = restTemplate.getForObject("http://"
-					+ "localhost:8082/products/{id}", Product.class, id);
+					+ "localhost:8082/products/{id}", Product.class, productID);
 			
 			if (product != null) {
 				model.addAttribute("product", product);
@@ -113,23 +113,23 @@ public class ProductController {
 	/*
 	 * Edit a product 
 	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/products/{id}/edit")
-	public String editProduct(Model model, @PathVariable("id") Integer id, HttpServletRequest request) {
+	@RequestMapping(method = RequestMethod.POST, value = "/users/{userID}/products/{productID}/edit")
+	public String editProduct(Model model, @PathVariable("userID") Integer userID, @PathVariable("productID") Integer productID, HttpServletRequest request) {
 		User user = (User) request.getSession(false).getAttribute("user");
 		
 		Map<String, String[]> formParams = request.getParameterMap();
 		
 		// Make sure the product's owned by logged in user or it's an admin editing it 
-		if (id.equals(user.getUserID()) || user.isAdmin()) {
+		if (userID.equals(user.getUserID()) || user.isAdmin()) {
 			Product product = restTemplate.postForObject("http://"
-					+ "localhost:8082/products/{id}/edit", formParams, Product.class, id);
+					+ "localhost:8082/products/{id}/edit", formParams, Product.class, productID);
 			
 			if (product != null) {
 				model.addAttribute("product", product);
 				return "redirect:/products/" + product.getProductID();
 			} else {
 				model.addAttribute("error", "Couldn't update the product");
-				return "product/"+id+"/edit";
+				return "redirect:/users/"+userID+"/product/"+productID+"/edit";
 			}
 		} else {
 			return "redirect:/products/index";
@@ -139,22 +139,22 @@ public class ProductController {
 	/*
 	 * Process request for deleting a product  
 	 */
-	@RequestMapping("/products/{id}/delete")
-	public String deleteProduct(Model model, @PathVariable("id") Integer id, HttpServletRequest request) {
+	@RequestMapping("/users/{userID}/products/{productID}/delete")
+	public String deleteProduct(Model model, @PathVariable("userID") Integer userID, @PathVariable("productID") Integer productID, HttpServletRequest request) {
 		User user = (User) request.getSession(false).getAttribute("user");
 		
 		// Check product belongs to the user or the user is an admin 
-		if (id.equals(user.getUserID()) || user.isAdmin()) {
+		if (userID.equals(user.getUserID()) || user.isAdmin()) {
 			// Send request to microservice to delete product with the given id 
 			boolean deleted = restTemplate.postForObject("http://" 
-					+ "localhost:8082/products/{id}/delete", null, boolean.class, id);
+					+ "localhost:8082/products/{id}/delete", null, boolean.class, productID);
 			
 			if (deleted) {
 				return "redirect:/products/index";
 			}
 			else {
 				model.addAttribute("error", "Couldn't delete product");
-				return "redirect:/products/" + id;
+				return "redirect:/products/" + productID;
 			}
 		} else {
 			return "redirect:/products/index";
